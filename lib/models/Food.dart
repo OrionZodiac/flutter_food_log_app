@@ -1,45 +1,44 @@
-//class สำหรับทำงานร่วใกับตารางในฐานข้แมูล
-// ignore_for_file: use_function_type_syntax_for_parameters, non_constant_identifier_names, unused_import
+//คลาสนี้ใช้สำหรับทำงานร่วมกับตารางในฐานข้อมูลที่จะทำงานด้วย
 
-import 'package:flutter/foundation.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+// ignore_for_file: non_constant_identifier_names
 
 class Food {
-  //  สร้างตัวแปรที่กับ colum ในตาราง
   String? id;
-  DateTime? created_at;
-  DateTime? FoodDate;
-  String? FoodMeal;
-  String? FoodName;
-  double? FoodPrice;
-  int? FoodPerson;
+  String FoodDate;
+  String FoodMeal;
+  String FoodName;
+  double FoodPrice;
+  int FoodPerson;
 
-  Food(
-      {this.id,
-      this.created_at,
-      this.FoodDate,
-      this.FoodMeal,
-      this.FoodName,
-      this.FoodPrice,
-      this.FoodPerson});
+  Food({
+    this.id,
+    required this.FoodDate,
+    required this.FoodMeal,
+    required this.FoodName,
+    required this.FoodPrice,
+    required this.FoodPerson,
+  });
 
-  Map<String, dynamic> toMap() => {
-        'id': id,
-        'created_at': created_at,
-        'FoodDate': FoodDate,
-        'FoodMeal': FoodMeal,
-        'FoodName': FoodName,
-        'FoodPrice': FoodPrice,
-        'FoodPerson': FoodPerson,
-      };
+//แปลงข้อมูลที่รับมาจาก Supabase เพื่อมาใช้ในแอปฯ
+  factory Food.fromJson(Map<String, dynamic> json) {
+    return Food(
+      id: json['id'],
+      FoodDate: json['FoodDate'],
+      FoodMeal: json['FoodMeal'],
+      FoodName: json['FoodName'],
+      FoodPrice: (json['FoodPrice'] as num).toDouble(),
+      FoodPerson: json['FoodPerson'],
+    );
+  }
 
-  factory Food.FromMap(Map<String, dynamic> map) => Food(
-        id: map['id'],
-        created_at: map['created_at'],
-        FoodDate: map['FoodDate'],
-        FoodMeal: map['FoodMeal'],
-        FoodName: map['FoodName'],
-        FoodPrice: map['FoodPrice'],
-        FoodPerson: map['FoodPerson'],
-      );
+//แปลงข้อมูลจากแอปฯ เพื่อส่งไปยัง Supabase
+  Map<String, dynamic> toJson() {
+    return {
+      "FoodDate": FoodDate,
+      "FoodMeal": FoodMeal,
+      "FoodName": FoodName,
+      "FoodPrice": FoodPrice,
+      "FoodPerson": FoodPerson,
+    };
+  }
 }
