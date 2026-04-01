@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_food_log_app/models/Food.dart';
 import 'add_food.dart';
 import 'package:flutter_food_log_app/services/supabase_service.dart';
+import 'update_food.dart';
 
 class ShowAll extends StatefulWidget {
   const ShowAll({super.key});
@@ -74,7 +75,13 @@ class _ShowAllState extends State<ShowAll> {
                         bottom: 10,
                       ),
                       child: ListTile(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UpdateFood(food: Foods[index],),
+                              ) ).then((value) => loadallFood());
+                        },
                         leading: Image.asset(
                           'assets/images/food.png',
                         ),
